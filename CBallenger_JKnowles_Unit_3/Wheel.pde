@@ -1,6 +1,6 @@
 void drawWheel(int x, int y, int radius){
   ellipseMode(CENTER);
-  // fill(0,0,255);
+  noFill();
   ellipse(x,y, radius*2, radius*2);
   star(0, 0, 0, wheelRadius, 6); 
 }
