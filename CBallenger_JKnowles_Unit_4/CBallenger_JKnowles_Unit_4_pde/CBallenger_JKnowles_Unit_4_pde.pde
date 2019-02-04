@@ -1,6 +1,6 @@
 float birthRate = 1;
 float particleCountCurrent = 0;
-int particleCount = 1000;
+int particleCount = 975;
 float boundryBottom = 300; 
 float bottleFill = 50;
 float[] x = new float[particleCount];
@@ -24,14 +24,14 @@ void setup(){
     speedY[i] = 0; random(-2, 2);
     radius[i] = random(1, 4); 
     gravity[i] = .09;
-    damping[i] = .01;
+    damping[i] = .05;
     friction[i] = .05;
-    liquidColor[i] = color(255,100,0);
+    liquidColor[i] = color(139,69,19);
   }
 }
 
 void draw(){
-  background(0);
+  background(100);
   drawMug(100,200);
   //fill(255, 20);
   //noStroke();
@@ -43,10 +43,15 @@ void draw(){
     x[i] += speedX[i];
     speedY[i] += gravity[i];
     y[i] += speedY[i];
-    
+   
     if( i > bottleFill ) {
       boundryBottom -= 1;
       bottleFill += 10;
+
+    }
+    
+    if( i > 80 ){
+      drawBeerInMug(100, 297, boundryBottom - 2);
     }
     checkCollisions(i, 100, 150, boundryBottom);
   }
@@ -54,6 +59,9 @@ void draw(){
   if(particleCountCurrent < particleCount - birthRate){
      particleCountCurrent += birthRate;
   }
+  
+  drawBottle(100,100);
+      
 }
 
 void checkCollisions(int i, float boundryLeft, float boundryRight, float boundryBottom){
@@ -61,19 +69,20 @@ void checkCollisions(int i, float boundryLeft, float boundryRight, float boundry
    x[i] = boundryRight - radius[i];
    speedX[i] = speedX[i] * -1; 
  }
- 
+
  if (x[i] < boundryLeft + radius[i]) {
    x[i] = boundryLeft + radius[i];
    speedX[i] = speedX[i] * -1;
  }
- 
+
  if (y[i] > boundryBottom - radius[i]) {
+   liquidColor[i] = color(205,133,63);
    y[i] = boundryBottom - radius[i];
    speedY[i] = speedY[i] * -1; 
-   speedY[i] *= damping[i]; 
+   speedY[i] *= damping[i];
    speedX[i] = random(-1, 1);
  }
- 
+
  if (y[i] < radius[i]) {
    y[i] = radius[i];
    speedY[i] = speedY[i] * -1;
